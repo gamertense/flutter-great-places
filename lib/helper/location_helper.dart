@@ -13,8 +13,14 @@ class LocationHelper {
   static Future<String> getPlaceAddress(double lat, double lng) async {
     final url =
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$googleApiKey';
-    final response = await http.get(Uri.http(url));
+    final response = await http.get(Uri.parse(url));
+    final responseBody = json.decode(response.body) as Map<String, dynamic>;
 
-    return json.decode(response.body)['results'][0]['formatted_address'];
+    if (responseBody['error_message'] != null) {
+      print('[getPlaceAddress()] ' + responseBody['error_message']);
+      return 'No address found for this location';
+    }
+
+    return responseBody['results'][0]['formatted_address'];
   }
 }

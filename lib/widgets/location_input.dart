@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:great_places/helper/location_helper.dart';
-import 'package:great_places/screens/map_screen.dart';
 import 'package:location/location.dart';
 
 class LocationInput extends StatefulWidget {
@@ -10,7 +7,7 @@ class LocationInput extends StatefulWidget {
   const LocationInput(this.onSelectPlace, {super.key});
 
   @override
-  _LocationInputState createState() => _LocationInputState();
+  State<LocationInput> createState() => _LocationInputState();
 }
 
 class _LocationInputState extends State<LocationInput> {
@@ -29,16 +26,7 @@ class _LocationInputState extends State<LocationInput> {
             width: 1,
             color: Colors.grey,
           )),
-          child: _previewImageUrl == null
-              ? const Text(
-                  'No Location Chosen',
-                  textAlign: TextAlign.center,
-                )
-              : Image.network(
-                  _previewImageUrl!,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
+          child: _showLocationPreview(),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -67,13 +55,28 @@ class _LocationInputState extends State<LocationInput> {
     try {
       final locData = await Location().getLocation();
       // _showPreview(locData.latitude, locData.longitude);
+      print(locData);
       widget.onSelectPlace(locData.latitude, locData.longitude);
     } catch (error) {
       return;
     }
   }
 
-  Future<void> _selectOnMap() async {
+  dynamic _showLocationPreview() {
+    if (_previewImageUrl == null) {
+      return const Text(
+        'No Location Chosen',
+        textAlign: TextAlign.center,
+      );
+    }
+    return Image.network(
+      _previewImageUrl!,
+      fit: BoxFit.cover,
+      width: double.infinity,
+    );
+  }
+
+  /* Future<void> _selectOnMap() async {
     final LatLng selectedLocation = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => const MapScreen(
@@ -87,7 +90,7 @@ class _LocationInputState extends State<LocationInput> {
     }
     _showPreview(selectedLocation.latitude, selectedLocation.longitude);
     widget.onSelectPlace(selectedLocation.latitude, selectedLocation.longitude);
-  }
+  } 
 
   void _showPreview(double lat, double lng) {
     final staticMapImageUrl = LocationHelper.generateLocationPreviewImage(
@@ -97,5 +100,5 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       _previewImageUrl = staticMapImageUrl;
     });
-  }
+  } */
 }
