@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:great_places/helper/location_helper.dart';
 import 'package:great_places/screens/map_screen.dart';
+import 'package:location/location.dart';
 
 class LocationInput extends StatefulWidget {
   final Function onSelectPlace;
@@ -42,34 +43,35 @@ class _LocationInputState extends State<LocationInput> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            /*  TextButton.icon(
+            TextButton.icon(
               onPressed: _getCurrentUserLocation,
               icon: const Icon(Icons.location_on),
               label: const Text('Current Location'),
-              textColor: Theme.of(context).primaryColor,
-            ), */
-            TextButton.icon(
+              style: TextButton.styleFrom(
+                  surfaceTintColor: Theme.of(context).primaryColor),
+            ),
+            /* TextButton.icon(
               onPressed: _selectOnMap,
               icon: const Icon(Icons.map),
               label: const Text('Select on Map'),
               style: TextButton.styleFrom(
                   surfaceTintColor: Theme.of(context).primaryColor),
-            ),
+            ), */
           ],
         )
       ],
     );
   }
 
-  /*  Future<void> _getCurrentUserLocation() async {
+  Future<void> _getCurrentUserLocation() async {
     try {
       final locData = await Location().getLocation();
-      _showPreview(locData.latitude, locData.longitude);
+      // _showPreview(locData.latitude, locData.longitude);
       widget.onSelectPlace(locData.latitude, locData.longitude);
     } catch (error) {
       return;
     }
-  } */
+  }
 
   Future<void> _selectOnMap() async {
     final LatLng selectedLocation = await Navigator.of(context).push(

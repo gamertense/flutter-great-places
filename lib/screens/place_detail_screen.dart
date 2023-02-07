@@ -10,7 +10,7 @@ class PlaceDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final id = ModalRoute.of(context)?.settings.arguments;
+    final id = ModalRoute.of(context)?.settings.arguments as String;
     final selectedPlace =
         Provider.of<GreatPlaces>(context, listen: false).findById(id);
 
@@ -24,14 +24,14 @@ class PlaceDetailScreen extends StatelessWidget {
             height: 250,
             width: double.infinity,
             child: Image.file(
-              selectedPlace.image,
+              selectedPlace.image!,
               fit: BoxFit.cover,
               width: double.infinity,
             ),
           ),
           const SizedBox(height: 10),
           Text(
-            selectedPlace.location.address,
+            selectedPlace.location!.address!,
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 20,
@@ -45,7 +45,7 @@ class PlaceDetailScreen extends StatelessWidget {
                 MaterialPageRoute(
                   fullscreenDialog: true,
                   builder: (ctx) => MapScreen(
-                    initialLocation: selectedPlace.location,
+                    initialLocation: selectedPlace.location!,
                   ),
                 ),
               );
