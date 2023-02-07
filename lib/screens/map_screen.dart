@@ -13,7 +13,7 @@ class MapScreen extends StatefulWidget {
       this.isSelecting = false});
 
   @override
-  _MapScreenState createState() => _MapScreenState();
+  State<MapScreen> createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
